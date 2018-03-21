@@ -213,11 +213,12 @@ public class SendWhoIs {
             byte[] inBuffer = new byte[25];
             while(count< 60) {
                 //byte[] data = port.readBytes();
-                NativeSize read = clib.read(handle, buffer, new NativeSize(25));
+                NativeSize read = clib.read(handle, inBuffer, new NativeSize(25));
                 if(read.intValue() > 0) {
                     System.out.print("Recieving (" + read + "): ");
-                    for(int i=0; i<read.intValue(); i++)
+                    for(int i=0; i<read.intValue(); i++) {
                         System.out.print(String.format("0x%02X", inBuffer[i]) + " ");
+                    }
                     System.out.print("\n");
                 }
                 
