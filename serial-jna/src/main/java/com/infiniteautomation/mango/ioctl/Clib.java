@@ -21,9 +21,11 @@ public interface Clib extends Library {
 
     public int fcntl(int fd, int cmd, int arg);
 
-    public int ioctl(int fd, int cmd, int[] arg);
+    public int ioctl(int fd, int cmd, int... arg);
     
-    public int ioctl(int fd, int cmd, Pointer arg);
+//    public int ioctl(int fd, int cmd, int arg);
+//    
+//    public int ioctl(int fd, int cmd);
 
     public int ioctl(int fd, int cmd, SerialStruct arg);
     

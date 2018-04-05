@@ -24,15 +24,17 @@ public class ClibDirectMapping implements Clib {
     public int ioctlJava(int fd, int cmd, int... arg) {
         return ioctl(fd, cmd, arg);
     }
-    native public int ioctl(int fd, int cmd, int[] arg) throws LastErrorException;
+    native public int ioctl(int fd, int cmd, int... arg) throws LastErrorException;
     
-    native public int ioctl(int fd, int cmd, Pointer arg) throws LastErrorException;
-
+//    native public int ioctl(int fd, int cmd, int arg) throws LastErrorException;
+//
+//    native public int ioctl(int fd, int cmd) throws LastErrorException;
+    
     native public int ioctl(int fd, int cmd, SerialStruct arg);
     
     native public int ioctl(int fd, int cmd, Termios2Struct arg);
 
-    native public int open(String path, int flags);
+    native public int open(String path, int flags) throws LastErrorException;
 
     native public int close(int fd);
 
