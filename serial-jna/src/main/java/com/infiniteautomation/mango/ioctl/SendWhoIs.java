@@ -41,45 +41,8 @@ public class SendWhoIs extends IoctlBase{
             Long handleId = (Long)handleRef.get(port);
             int handle = handleId.intValue();
 
-            //TODO  Handle TCGETS2 Command to get termios2 Struct
-            Termios2Struct termios = new Termios2Struct();
-            clib.ioctl(handle, TCGETS2, termios);
-            
-            //Configure the serial port for non-blocking reads/writes
-            clib.fcntl(handle, F_SETFL, FNDELAY);
-            
-            
-            //Control settings - receiver on, non-modem
-            termios.c_cflag = CREAD | CLOCAL;
-            //TODO More settings to change
-            clib.ioctl(handle, TCSETS2, termios);
-            
-            //Same as purgePort clib.tcflush(handle, 10000);
-            System.out.println("Purging: " + port.getPortName());
-            port.purgePort(SerialPort.PURGE_RXCLEAR & SerialPort.PURGE_TXCLEAR);
-            
-            //Read and save the serial port settings
-            SerialStruct serialInfo = new SerialStruct();
-            int result = clib.ioctl(handle, TIOCGSERIAL, serialInfo);
-            if(result < 0)
-                System.out.println("Failed to read SerialStruct: " + result);
-            serialInfo.flags |= ASYNC_LOW_LATENCY;
-            result = clib.ioctl(handle, TIOCSSERIAL, serialInfo);
-            if(result < 0)
-                System.out.println("Failed to set SerialStruct: " + result);
-            
-            System.out.println("Switching to N_MSTP line discipline");
-            //Modify the port operation to switch to N_MSTP line discipline
-            result = clib.ioctlJava(handle, TIOCSETSD, N_MSTP);
-            if(result < 0)
-                System.out.println("Failed to switch to N_MSTP line discipline: " + result);
-            
-            System.out.println("Setting MAC address to " + mac);
-            //Configure the Driver
-            result = clib.ioctlJava(handle, MSTP_IOC_SETMACADDRESS, mac);
-            if(result < 0)
-                System.out.println("Failed to set MAC address to " + mac + " " + result);
-            
+            //Configure to use Driver
+            SetMacAddress.configureDriver(handle, (byte)mac);   
             
             //WHOIS Message, MAC will be set by underlying driver
             byte[] buffer = new byte[13];
