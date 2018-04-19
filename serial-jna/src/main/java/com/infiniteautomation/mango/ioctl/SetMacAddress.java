@@ -16,6 +16,7 @@ public class SetMacAddress extends IoctlBase{
 
     public static void main(String[] args)  {
         
+        int fd = -1;
         try {
         
             if(args == null || args.length != 2) {
@@ -27,20 +28,19 @@ public class SetMacAddress extends IoctlBase{
             int mac = Integer.parseInt(args[1]);
             
             //Open the port
-            int fd = clib.open(portName, OPEN_FLAGS);
-            if(fd == -1) {
-                System.out.println("Unable to open port " + portName);
-                System.exit(1);
-            }
+            System.out.println("Opening Port " + portName);
+            fd = clib.open(portName, OPEN_FLAGS);
             
             //Configure the serial port for non-blocking reads/writes
-            if(clib.fcntl(fd, F_SETFL, FNDELAY) < 0)
-                System.out.println("Unable to set non-blocking read/write");
+            System.out.println("Setting non-blocking read/write");
+            clib.fcntl(fd, F_SETFL, FNDELAY);
+                
             
             //Get the line discipline
             Termios termios = new Termios();
-            if(clib.tcgetattr(fd, termios) < 0)
-                System.out.println("Failed to get termios struct");
+            System.out.println("Getting Termios Struct");
+            clib.tcgetattr(fd, termios);
+                
     
             termios.c_cflag = CREAD | CLOCAL;
             
@@ -70,38 +70,33 @@ public class SetMacAddress extends IoctlBase{
             termios.c_line = N_MSTP;
             
             /* flush the buffer */
-            if(clib.tcflush(fd, TCIFLUSH) < 0);
-                System.out.println("Failed to flush the port.");
-            
-            if(clib.tcsetattr(fd, TCSANOW, termios) < 0)
-                System.out.println("Failed to set termios struct");
-            
-            //TODO For testing
-            if(clib.tcgetattr(fd, termios) < 0)
-                System.out.println("Failed to get termios struct");
+            System.out.println("Flusing the port.");
+            clib.tcflush(fd, TCIFLUSH);
+                
+            System.out.println("Setting termios struct");
+            clib.tcsetattr(fd, TCSANOW, termios);
+                
+            System.out.println("Getting termios struct");
+            clib.tcgetattr(fd, termios);
+                
             //TODO Set Low Latency Flag
             
             //Now try switching discipline
-            if(clib.ioctlJava(fd, TIOCSETSD, N_MSTP) < 0)
-                System.out.println("Failed to switch discipline.");
+            System.out.println("Switching to MSTP discipline.");
+            clib.ioctl(fd, TIOCSETSD, N_MSTP);
+                
+            System.out.println("Setting MAC address");
+            clib.ioctl(fd, MSTP_IOC_SETMACADDRESS, mac);
             
-            try{
-                clib.ioctl(fd, MSTP_IOC_SETMACADDRESS, mac);
-            }catch(LastErrorException e) {
-                System.out.println("Failed to set MAC address: " + "Error code: " + e.getErrorCode() + " " +  e.getMessage());
-            }
+            System.out.println("Getting MAC address");
+            Integer macRead = clib.ioctl(fd, MSTP_IOC_GETMACADDRESS);
+            System.out.println("Mac read as " + macRead);
 
-            try{
-                Integer macRead = clib.ioctl(fd, MSTP_IOC_GETMACADDRESS);
-                System.out.println("Mac read as " + macRead);
-            }catch (LastErrorException e) {
-                System.out.println("Failed to get MAC address: " + "Error code: " + e.getErrorCode() + " " +  e.getMessage());
-            }
-            
-            clib.close(fd);
-        }catch(LastErrorException e) {
-            System.out.println("Error code: " + e.getErrorCode() + " " +  e.getMessage());
+        }catch(LastErrorException e) {            
             e.printStackTrace();
+        }finally {
+            if(fd > 0)
+                clib.close(fd);
         }
 
     }

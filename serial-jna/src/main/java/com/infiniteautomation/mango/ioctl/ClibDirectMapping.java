@@ -5,7 +5,6 @@
 package com.infiniteautomation.mango.ioctl;
 
 import com.sun.jna.LastErrorException;
-import com.sun.jna.Pointer;
 
 /**
  *
@@ -13,50 +12,37 @@ import com.sun.jna.Pointer;
  */
 public class ClibDirectMapping implements Clib {
 
-    native public int pipe(int[] fds);
-
-    native public int tcdrain(int fd);
-
-    //native public void cfmakeraw(termios termios);
-
-    native public int fcntl(int fd, int cmd, int arg);
-
-    public int ioctlJava(int fd, int cmd, int... arg) {
-        return ioctl(fd, cmd, arg);
-    }
+    
+    native public int fcntl(int fd, int cmd, int arg) throws LastErrorException;
     native public int ioctl(int fd, int cmd, int... arg) throws LastErrorException;
-    
-//    native public int ioctl(int fd, int cmd, int arg) throws LastErrorException;
-//
-//    native public int ioctl(int fd, int cmd) throws LastErrorException;
-    
-    native public int ioctl(int fd, int cmd, SerialStruct arg);
-    
-    native public int ioctl(int fd, int cmd, Termios2Struct arg);
-
+    native public int ioctl(int fd, int cmd, int arg) throws LastErrorException;
+    native public int ioctl(int fd, int cmd) throws LastErrorException;
     native public int open(String path, int flags) throws LastErrorException;
+    native public int tcgetattr(int fd, Termios termios) throws LastErrorException;
+    native public int tcsetattr(int fd, int cmd, Termios termios) throws LastErrorException;
+    native public int tcflush(int fd, int qs) throws LastErrorException;
+    native public int close(int fd) throws LastErrorException;
+    native public NativeSize write(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
+    native public NativeSize read(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
+    native public int ioctl(int fd, int cmd, SerialStruct arg) throws LastErrorException;
+    native public int ioctl(int fd, int cmd, Termios2Struct arg) throws LastErrorException;
+    
+    
+//    public int ioctlJava(int fd, int cmd, int... arg) {
+//        return ioctl(fd, cmd, arg);
+//    }
 
-    native public int close(int fd);
-
-    native public int tcgetattr(int fd, Termios termios);
-
-    native public int tcsetattr(int fd, int cmd, Termios termios);
-
-    native public int cfsetispeed(Termios termios, int i);
-
-    native public int cfsetospeed(Termios termios, int i);
-
-    native public int cfgetispeed(Termios termios);
-
-    native public int cfgetospeed(Termios termios);
-
-    native public NativeSize write(int fd, byte[] buffer, NativeSize count);
-
-    native public NativeSize read(int fd, byte[] buffer, NativeSize count);
-
-    native public int tcflush(int fd, int qs);
-
-    native public void perror(String msg);
-
-    native public int tcsendbreak(int fd, int duration);
+//    native public int pipe(int[] fds);
+//    native public int tcdrain(int fd);
+//    native public void cfmakeraw(termios termios);
+//    native public int ioctl(int fd, int cmd, SerialStruct arg);
+//    native public int ioctl(int fd, int cmd, Termios2Struct arg);
+//    native public int cfsetispeed(Termios termios, int i);
+//    native public int cfsetospeed(Termios termios, int i);
+//    native public int cfgetispeed(Termios termios);
+//    native public int cfgetospeed(Termios termios);
+//    native public NativeSize write(int fd, byte[] buffer, NativeSize count);
+//    native public NativeSize read(int fd, byte[] buffer, NativeSize count);
+//    native public void perror(String msg);
+//    native public int tcsendbreak(int fd, int duration);
 }
