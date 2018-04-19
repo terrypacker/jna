@@ -14,7 +14,6 @@ import com.sun.jna.Library;
 public interface Clib extends Library {
 
     public int fcntl(int fd, int cmd, int arg) throws LastErrorException;
-    public int ioctl(int fd, int cmd, int... arg) throws LastErrorException;
     public int ioctl(int fd, int cmd, int arg) throws LastErrorException;
     public int ioctl(int fd, int cmd) throws LastErrorException;
     public int open(String path, int flags) throws LastErrorException;

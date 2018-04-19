@@ -14,7 +14,6 @@ public class ClibDirectMapping implements Clib {
 
     
     native public int fcntl(int fd, int cmd, int arg) throws LastErrorException;
-    native public int ioctl(int fd, int cmd, int... arg) throws LastErrorException;
     native public int ioctl(int fd, int cmd, int arg) throws LastErrorException;
     native public int ioctl(int fd, int cmd) throws LastErrorException;
     native public int open(String path, int flags) throws LastErrorException;
