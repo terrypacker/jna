@@ -20,8 +20,8 @@ public interface Clib extends Library {
     public int tcsetattr(int fd, int cmd, Termios termios) throws LastErrorException;
     public int tcflush(int fd, int qs) throws LastErrorException;
     public int close(int fd) throws LastErrorException; 
-    public NativeSize write(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
-    public NativeSize read(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
+    public int write(int fd, byte[] buffer, int count);
+    public int read(int fd, byte[] buffer, int count);
     public int ioctl(int fd, int cmd, byte arg) throws LastErrorException;
     public int ioctl(int fd, int cmd, SerialStruct arg) throws LastErrorException;
     public int ioctl(int fd, int cmd, Termios2Struct arg) throws LastErrorException;

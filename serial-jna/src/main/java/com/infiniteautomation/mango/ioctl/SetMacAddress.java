@@ -90,11 +90,11 @@ public class SetMacAddress extends IoctlBase{
         clib.tcgetattr(fd, termios);
             
         SerialStruct serialInfo = new SerialStruct();
-        System.out.print("Getting Serial Info");
+        System.out.println("Getting Serial Info");
         clib.ioctl(fd, TIOCGSERIAL, serialInfo);
         
         serialInfo.flags |= ASYNC_LOW_LATENCY;
-        System.out.print("Setting Low Latency Flag");
+        System.out.println("Setting Low Latency Flag");
         clib.ioctl(fd, TIOCSSERIAL, serialInfo);
         
         //Now try switching discipline

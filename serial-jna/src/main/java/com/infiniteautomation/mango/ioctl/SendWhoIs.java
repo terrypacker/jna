@@ -69,13 +69,19 @@ public class SendWhoIs extends IoctlBase{
             port.writeBytes(buffer);
             System.out.println("Waiting for replies");
             int count = 0;
+            byte[] inBuffer = new byte[25];
             while(count< 60) {
-                byte[] data = port.readBytes();
-                System.out.print("Recieving (" + data.length + "): ");
-                for(int i=0; i<data.length; i++) {
-                    System.out.print(String.format("0x%02X", data[i]) + " ");
+                //Fails on seg fault...
+                //byte[] data = port.readBytes();
+                int read = clib.read(handle, inBuffer, 25);
+                if(read > 0) {
+                    System.out.print("Recieving (" + read + "): ");
+                    for(int i=0; i<read; i++) {
+                        System.out.print(String.format("0x%02X", inBuffer[i]) + " ");
+                    }
+                    System.out.print("\n");
                 }
-                System.out.print("\n");
+                
                 Thread.sleep(500);
                 count++;
             }
@@ -84,4 +90,5 @@ public class SendWhoIs extends IoctlBase{
             e.printStackTrace();
         }
     }
+ 
 }

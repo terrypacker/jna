@@ -18,8 +18,8 @@ public class ClibDirectMapping implements Clib {
     native public int tcsetattr(int fd, int cmd, Termios termios) throws LastErrorException;
     native public int tcflush(int fd, int qs) throws LastErrorException;
     native public int close(int fd) throws LastErrorException;
-    native public NativeSize write(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
-    native public NativeSize read(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
+    native public int write(int fd, byte[] buffer, int count);
+    native public int read(int fd, byte[] buffer, int count);
     native public int ioctl(int fd, int cmd, byte arg) throws LastErrorException;
     native public int ioctl(int fd, int cmd, int[] arg) throws LastErrorException;
     native public int ioctl(int fd, int cmd, SerialStruct arg) throws LastErrorException;
