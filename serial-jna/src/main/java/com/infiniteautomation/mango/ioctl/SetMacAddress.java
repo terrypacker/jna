@@ -86,10 +86,10 @@ public class SetMacAddress extends IoctlBase{
             clib.ioctlJava(fd, TIOCSETSD, N_MSTP);
                 
             System.out.println("Setting MAC address");
-            clib.ioctlJava(fd, MSTP_IOC_SETMACADDRESS, mac);
+            clib.ioctl(fd, MSTP_IOC_SETMACADDRESS, (byte)mac);
             
             System.out.println("Getting MAC address");
-            Integer macRead = clib.ioctlJava(fd, MSTP_IOC_GETMACADDRESS);
+            int macRead = clib.ioctlJava(fd, MSTP_IOC_GETMACADDRESS);
             System.out.println("Mac read as " + macRead);
 
         }catch(LastErrorException e) {            

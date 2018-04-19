@@ -22,6 +22,7 @@ public interface Clib extends Library {
     public int close(int fd) throws LastErrorException; 
     public NativeSize write(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
     public NativeSize read(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
+    public int ioctl(int fd, int cmd, byte arg) throws LastErrorException;
     public int ioctl(int fd, int cmd, SerialStruct arg) throws LastErrorException;
     public int ioctl(int fd, int cmd, Termios2Struct arg) throws LastErrorException;
     
