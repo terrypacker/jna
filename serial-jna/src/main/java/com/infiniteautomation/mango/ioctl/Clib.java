@@ -14,8 +14,7 @@ import com.sun.jna.Library;
 public interface Clib extends Library {
 
     public int fcntl(int fd, int cmd, int arg) throws LastErrorException;
-    public int ioctl(int fd, int cmd, int arg) throws LastErrorException;
-    public int ioctl(int fd, int cmd) throws LastErrorException;
+    public int ioctl(int fd, int cmd, int[] arg) throws LastErrorException;
     public int open(String path, int flags) throws LastErrorException;
     public int tcgetattr(int fd, Termios termios) throws LastErrorException;
     public int tcsetattr(int fd, int cmd, Termios termios) throws LastErrorException;
@@ -25,4 +24,5 @@ public interface Clib extends Library {
     public NativeSize read(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
     public int ioctl(int fd, int cmd, SerialStruct arg) throws LastErrorException;
     public int ioctl(int fd, int cmd, Termios2Struct arg) throws LastErrorException;
+    
  }

@@ -11,11 +11,8 @@ import com.sun.jna.LastErrorException;
  * @author Terry Packer
  */
 public class ClibDirectMapping implements Clib {
-
     
     native public int fcntl(int fd, int cmd, int arg) throws LastErrorException;
-    native public int ioctl(int fd, int cmd, int arg) throws LastErrorException;
-    native public int ioctl(int fd, int cmd) throws LastErrorException;
     native public int open(String path, int flags) throws LastErrorException;
     native public int tcgetattr(int fd, Termios termios) throws LastErrorException;
     native public int tcsetattr(int fd, int cmd, Termios termios) throws LastErrorException;
@@ -23,13 +20,14 @@ public class ClibDirectMapping implements Clib {
     native public int close(int fd) throws LastErrorException;
     native public NativeSize write(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
     native public NativeSize read(int fd, byte[] buffer, NativeSize count) throws LastErrorException;
+    native public int ioctl(int fd, int cmd, int[] arg) throws LastErrorException;
     native public int ioctl(int fd, int cmd, SerialStruct arg) throws LastErrorException;
     native public int ioctl(int fd, int cmd, Termios2Struct arg) throws LastErrorException;
     
     
-//    public int ioctlJava(int fd, int cmd, int... arg) {
-//        return ioctl(fd, cmd, arg);
-//    }
+    public int ioctlJava(int fd, int cmd, int... arg) {
+        return ioctl(fd, cmd, arg);
+    }
 
 //    native public int pipe(int[] fds);
 //    native public int tcdrain(int fd);

@@ -70,13 +70,13 @@ public class SendWhoIs extends IoctlBase{
             
             System.out.println("Switching to N_MSTP line discipline");
             //Modify the port operation to switch to N_MSTP line discipline
-            result = clib.ioctl(handle, TIOCSETSD, N_MSTP);
+            result = clib.ioctlJava(handle, TIOCSETSD, N_MSTP);
             if(result < 0)
                 System.out.println("Failed to switch to N_MSTP line discipline: " + result);
             
             System.out.println("Setting MAC address to " + mac);
             //Configure the Driver
-            result = clib.ioctl(handle, MSTP_IOC_SETMACADDRESS, mac);
+            result = clib.ioctlJava(handle, MSTP_IOC_SETMACADDRESS, mac);
             if(result < 0)
                 System.out.println("Failed to set MAC address to " + mac + " " + result);
             

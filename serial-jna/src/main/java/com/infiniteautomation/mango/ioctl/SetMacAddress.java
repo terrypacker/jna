@@ -83,13 +83,13 @@ public class SetMacAddress extends IoctlBase{
             
             //Now try switching discipline
             System.out.println("Switching to MSTP discipline.");
-            clib.ioctl(fd, TIOCSETSD, N_MSTP);
+            clib.ioctlJava(fd, TIOCSETSD, N_MSTP);
                 
             System.out.println("Setting MAC address");
-            clib.ioctl(fd, MSTP_IOC_SETMACADDRESS, mac);
+            clib.ioctlJava(fd, MSTP_IOC_SETMACADDRESS, mac);
             
             System.out.println("Getting MAC address");
-            Integer macRead = clib.ioctl(fd, MSTP_IOC_GETMACADDRESS);
+            Integer macRead = clib.ioctlJava(fd, MSTP_IOC_GETMACADDRESS);
             System.out.println("Mac read as " + macRead);
 
         }catch(LastErrorException e) {            
